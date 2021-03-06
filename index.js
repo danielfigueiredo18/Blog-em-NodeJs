@@ -1,8 +1,11 @@
 const connection = require("./database/database")
 const express = require("express")
 const bodyParser = require("body-parser")
-const categories = require("./controllers/Categories")
-const articles = require("./controllers/Articles")
+const cCategories = require("./controllers/Categories")
+const cArticles = require("./controllers/Articles")
+
+const Article = require("./models/Article")
+const Category = require("./models/Category")
 
 const app = express()
 // View Engine
@@ -14,9 +17,9 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
 // Router Categories
-app.use("/", categories)
+app.use("/", cCategories)
 // Router Articles
-app.use("/", articles)
+app.use("/", cArticles)
 
 //DataBase
 connection.authenticate().then(()=>{

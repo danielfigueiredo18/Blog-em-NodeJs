@@ -1,7 +1,8 @@
 const Sequelize = require("sequelize")
 const connection = require("../database/database")
+const Category = require("./Category")
 
-const Article = connection.define('artucles',{
+const Article = connection.define('articles',{
     title: {
         type:  Sequelize.STRING,
         allowNull: false
@@ -10,7 +11,7 @@ const Article = connection.define('artucles',{
         type: Sequelize.STRING,
         allowNull:false
     },
-    body{
+    body: {
         type: Sequelize.TEXT,
         allowNull: false
     }
