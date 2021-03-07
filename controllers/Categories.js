@@ -13,9 +13,34 @@ router.post("/categories/save",(req,res)=>{
         Category.create({
             title: title,
             slug: slugifly(title)
-        }).then(res.redirect("/"))
+        }).then(res.redirect("/admin/categories/"))
     }else{
         res.redirect("/admin/categories/new")
+    }
+})
+
+router.get("/admin/categories",(req,res)=>{
+    Category.findAll().then(categories => {
+       res.render("admin/categories/index",{categories: categories}) 
+    })   
+})
+
+router.post("/categories/delete", (req,res) =>{
+    var id = req.body.id
+    if(id != undefined){
+        if(!isNaN(id)){
+            Category.destroy({
+                where: {
+                    id: id
+                }
+            }).then(()=>{
+                res.redirect("/admin/categories")
+            })
+        }else{
+            res.redirect("/admin/categories")
+        }
+    }else{
+        res.redirect("/admin/categories")
     }
 })
 
