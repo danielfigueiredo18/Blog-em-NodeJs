@@ -3,7 +3,6 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const cCategories = require("./controllers/Categories")
 const cArticles = require("./controllers/Articles")
-const cRotas = require("./controllers/Rotas")
 
 const Article = require("./models/Article")
 const Category = require("./models/Category")
@@ -21,8 +20,7 @@ app.use(bodyParser.json())
 app.use("/", cCategories)
 // Router Articles
 app.use("/", cArticles)
-//Routers Alternatives
-app.use("/", cRotas)
+
 
 //DataBase
 connection.authenticate().then(()=>{
