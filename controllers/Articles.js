@@ -20,6 +20,21 @@ router.get("/admin/articles/new",(req,res)=>{
     
 })
 
+router.get("/admin/articles/edit/:id",(req,res)=>{
+    var id = req.params.id;
+    Article.findOne({
+        where:{
+            id: id
+        },include: {model: Category}
+    }).then(article =>{
+        Category.findAll().then(categories=>{
+            res.render("../views/admin/articles/edit",{article: article,categories: categories}) 
+        })
+       
+    })
+    
+})
+
 router.post("/articles/save",(req,res)=>{
     var title = req.body.title;
     var body = req.body.body;
@@ -58,5 +73,27 @@ router.post("/articles/delete", (req,res) =>{
     }
 })
 
+router.post("/articles/update", (req,res) =>{
+    var id = req.body.id
+    var title = req.body.title
+    var category = req.body.category;
+    var body = req.body.body
+    if(id != undefined && title != undefined){
+            Article.update(
+                {
+                    title: title,
+                    slug: slugify(title),
+                    body: body,
+                    categoryId: category 
+                },{
+                    where: {id: id}
+                }
+            ).then(()=>{
+                res.redirect("/admin/articles")
+            })
+    }else{
+        res.redirect("/admin/articles")
+    }
+})
 
 module.exports = router;
