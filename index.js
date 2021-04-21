@@ -1,25 +1,39 @@
 const connection = require("./database/database")
-const express = require("express")
-const bodyParser = require("body-parser")
+const express = require("express");
+const bodyParser = require("body-parser");
+const session = require("express-session");
+
 const cCategories = require("./controllers/Categories")
 const cArticles = require("./controllers/Articles")
+const cUser = require("./controllers/Users");
 
 const Article = require("./models/Article")
 const Category = require("./models/Category")
+const User = require("./models/User");
 
 const app = express()
 // View Engine
 app.set('view engine', 'ejs')
+
+// Sessions
+app.use(session({
+    secret: "qualquercoisa", cookie: { maxAge: 30000000 }
+}))
+
 // Static
 app.use(express.static('assets'))
+
 // Body-Parser
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
+/* =====  ROUTERS ===== */
 // Router Categories
 app.use("/", cCategories)
 // Router Articles
 app.use("/", cArticles)
+// Router Users
+app.use("/",cUser);
 
 app.get("/",(req,res)=>{
     Article.findAll({
